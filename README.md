@@ -61,6 +61,7 @@ Analisis Univariat merupakan bentuk analisis data yang hanya merepresentasikan i
 Selain melalui analisis, dilakukan juga Visualisasi Data. Memvisualisasikan data memberikan wawasan mendalam tentang perilaku berbagai fitur-fitur yang tersedia dalam dataset. Teknik visualisasi yang digunakan pada pembuatan model proyek ini adalah dengan menggunakan catplot yang digunakan untuk memplot distribusi data pada data kategori, pairplot yang digunakan untuk melakukan hubungan antar fitur dalam dataset, dan heatmap yang menampilkan korelasi antar fitur yang ada dalam dataset dalam bentuk matriks.
 
 Berikut adalah hasil Exploratory Data Analysis (EDA)
+
 Gambar 1 EDA Univariat Numerik
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/afdeb649-55fe-41f0-922c-4810a0a9e82b)
 
@@ -70,6 +71,7 @@ Gambar 2 EDA Multivariat Numerik
 
 Gambar 3 Analisis Multivariat (Correlation Matrix)
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/51aa42b7-7299-4a1c-985e-938cc740ba19)
+
 Jika diamati, fitur 'T2' memiliki skor korelasi yang cukup besar (0.27) dengan fitur target 'Appliances'. Artinya, fitur 'Appliances' berkorelasi cukup tinggi dengan lima belas fitur tersebut. Sementara itu, fitur lainnya memiliki korelasi negatif sehingga, fitur tersebut dapat di-drop.
 
 ##Data Preparation

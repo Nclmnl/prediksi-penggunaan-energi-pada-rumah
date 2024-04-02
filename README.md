@@ -61,5 +61,47 @@ Analisis Univariat merupakan bentuk analisis data yang hanya merepresentasikan i
 Selain melalui analisis, dilakukan juga Visualisasi Data. Memvisualisasikan data memberikan wawasan mendalam tentang perilaku berbagai fitur-fitur yang tersedia dalam dataset. Teknik visualisasi yang digunakan pada pembuatan model proyek ini adalah dengan menggunakan catplot yang digunakan untuk memplot distribusi data pada data kategori, pairplot yang digunakan untuk melakukan hubungan antar fitur dalam dataset, dan heatmap yang menampilkan korelasi antar fitur yang ada dalam dataset dalam bentuk matriks.
 
 Berikut adalah hasil Exploratory Data Analysis (EDA)
-
+Gambar 1 EDA Univariat Numerik
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/afdeb649-55fe-41f0-922c-4810a0a9e82b)
+
+
+Gambar 2 EDA Multivariat Numerik
+![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/8619bd42-dc66-4529-8432-b807bbc6a214)
+
+Gambar 3 Analisis Multivariat (Correlation Matrix)
+![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/51aa42b7-7299-4a1c-985e-938cc740ba19)
+Jika diamati, fitur 'T2' memiliki skor korelasi yang cukup besar (0.27) dengan fitur target 'Appliances'. Artinya, fitur 'Appliances' berkorelasi cukup tinggi dengan lima belas fitur tersebut. Sementara itu, fitur lainnya memiliki korelasi negatif sehingga, fitur tersebut dapat di-drop.
+
+##Data Preparation
+Pada proses Data Preparation dilakukan kegiatan seperti Data Gathering, Data Assessing, dan Data Cleaning. Pada proses Data Gathering, data diimpor sedemikian rupa agar bisa dibaca dengan baik menggunakan dataframe Pandas. 
+
+Untuk proses Data Assessing, berikut adalah beberapa pengecekan yang dilakukan:
+* Duplicate data (data yang serupa dengan data lainnya)
+* Missing value (data atau informasi yang "hilang" atau tidak tersedia)
+* Outlier (data yang menyimpang dari rata-rata sekumpulan data yang ada)
+  
+Pada proses Data Cleaning, secara garis besar, terdapat tiga metode yang dapat digunakan antara lain seperti berikut:
+* Dropping (metode yang dilakukan dengan cara menghapus sejumlah baris data)
+* Imputation (metode yang dilakukan dengan cara mengganti nilai yang "hilang" atau tidak tersedia dengan nilai tertentu yang bisa berupa median atau mean dari data)
+* Interpolation (metode menghasilkan titik-titik data baru dalam suatu jangkauan dari suatu data)
+
+Pada kasus proyek ini tidak ditemukan data duplikat maupun data Missing Value. Namun, jika ditemukan data missing, dapat menerapkan imputation dimana data yang missing diganti dengan nilai mean. Untuk outlier sendiri dilakukan metode dropping menggunakan metode IQR. IQR sendiri didapatkan dengan cara mengurangi Q3 dengan Q1 sebagaimana rumusan berikut.
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>I</mi>
+  <mi>Q</mi>
+  <mi>R</mi>
+  <mo>=</mo>
+  <mi>Q</mi>
+  <mn>3</mn>
+  <mo>&#x2212;</mo>
+  <mi>Q</mi>
+  <mn>1</mn>
+</math>
+
+dimana Q1 adalah kuartil pertama dan Q3 adalah kuartil ketiga.
+
+Dengan menggunakan metode IQR, dapat ditentukan outlier melalui suatu nilai batas yang ditentukan. Setelah menggunakan metode IQR dimana dataset yang sebelumnya berjumlah 19735 menjadi 9160.
+
+Semua proses ini diperlukan dalam rangka membuat model yang baik.
+
+Untuk mereduksi jumlah fitur dilakukan proses PCA. Teknik reduksi ini adalah prosedur yang mengurangi jumlah fitur dengan tetap mempertahankan informasi pada data. PCA ini adalah teknik untuk mereduksi dimensi, mengekstraksi fitur, dan mentransformasi data dari “n-dimensional space” ke dalam sistem berkoordinat baru dengan dimensi m, di mana m lebih kecil dari n. Pada proyek ini, fitu 'housing_median_age', 'total_rooms', 'total_bedrooms', 'households' divisualisasikan untuk melihat hubungan di antara fitur-fitur tersebut. sperti yang terlihat pada Gambar 3 berikut.

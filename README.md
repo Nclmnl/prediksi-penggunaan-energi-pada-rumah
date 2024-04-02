@@ -88,7 +88,8 @@ Pada proses Data Cleaning, secara garis besar, terdapat tiga metode yang dapat d
 * Interpolation (metode menghasilkan titik-titik data baru dalam suatu jangkauan dari suatu data)
 
 Pada kasus proyek ini tidak ditemukan data duplikat maupun data Missing Value. Namun, jika ditemukan data missing, dapat menerapkan imputation dimana data yang missing diganti dengan nilai mean. Untuk outlier sendiri dilakukan metode dropping menggunakan metode IQR. IQR sendiri didapatkan dengan cara mengurangi Q3 dengan Q1 sebagaimana rumusan berikut.
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+
+#<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
   <mi>I</mi>
   <mi>Q</mi>
   <mi>R</mi>
@@ -98,7 +99,7 @@ Pada kasus proyek ini tidak ditemukan data duplikat maupun data Missing Value. N
   <mo>&#x2212;</mo>
   <mi>Q</mi>
   <mn>1</mn>
-</math>
+</math>#
 
 dimana Q1 adalah kuartil pertama dan Q3 adalah kuartil ketiga.
 

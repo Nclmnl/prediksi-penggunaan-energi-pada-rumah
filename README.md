@@ -96,9 +96,10 @@ Pada proses Data Cleaning, secara garis besar, terdapat tiga metode yang dapat d
 
 Pada kasus proyek ini tidak ditemukan data duplikat maupun data Missing Value. Namun, jika ditemukan data missing, dapat menerapkan imputation dimana data yang missing diganti dengan nilai mean. Untuk outlier sendiri dilakukan metode dropping menggunakan metode IQR. IQR sendiri didapatkan dengan cara mengurangi Q3 dengan Q1 sebagaimana rumusan berikut.
 
-IQR = Q3 - Q1
+$$ IQR = Q<sub>3</sub> - Q<sub>1</sub> $$
 
-dimana Q1 adalah kuartil pertama dan Q3 adalah kuartil ketiga.
+dimana
+Q<sub>1</sub> adalah kuartil pertama dan Q<sub>3</sub> adalah kuartil ketiga.
 
 Dengan menggunakan metode IQR, dapat ditentukan outlier melalui suatu nilai batas yang ditentukan. Setelah menggunakan metode IQR dimana dataset yang sebelumnya berjumlah 19735 menjadi 9160.
 
@@ -112,91 +113,90 @@ Gambar 3 Visualisasi Hubungan antar Fitur sebelum Reduksi PCA
 Berdasarkan hasil visualisasi dapat diketahui yang memiliki hubungan antar fitur ada 11 yaitu 'T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out'.
 Selanjutnya, 11 fitur ini dapat direduksi dengan PCA. Sebelum itu, cek proporsi informasi dari 11 komponen PCs tadi.
 
+```
 pca.explained_variance_ratio_.round(3)
+```
 
 Potongan kode tersebut memberikan keluaran berupa array([0.572, 0.279, 0.069, 0.037, 0.017, 0.008, 0.008, 0.004, 0.003, 0.002, 0.001]). Dari output di atas 55.5% informasi pada ketiga fitur 'T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out' terdapat pada PC pertama.
 Berdasarkan hasil ini, reduksi fitur (dimensi) dan hanya mempertahankan PC (komponen) pertama saja. PC pertama ini akan menjadi fitur 'energy' menggantikan fitur lainnya ('T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out'). Beri nama fitur ini 'energy'.
 
 Setelah data dibersihkan, dataset dibagi menjadi data train dan data test untuk proses Modeling, dimana rasio pembagian data yang dipilih adalah 90:10 mengingat data test untuk rasio tersebut sudah terbilang cukup. 
 Train-Test-Split Membagi dataset menjadi data latih (train) dan data uji (test) merupakan hal yang harus diakukan sebelum membuat model. Hal ini diperlukan untuk menguji seberapa baik generalisasi model terhadap data baru. Adapun detail dari dataset tersebut adalah:
-* Total # of sample in whole dataset: 10525
-* Total # of sample in train dataset: 9472
-* Total # of sample in test dataset: 1053
+* Total # of sample in whole *dataset*: 10525
+* Total # of sample in train *dataset*: 9472
+* Total # of sample in test *dataset*: 1053
 
 ## Modeling
 
 Seperti yang dijelaskan di awal, model yang dipilih adalah model regresi karena merupakan salah satu algoritma yang paling umum digunakan dalam pembuatan model prediksi. Dalam bentuk yang sederhana, regresi terdiri dari intersep dan slope yang dituliskan dalam rumusan berikut:
 
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-  <mi>y</mi>
-  <mo>=</mo>
-  <mi>a</mi>
-  <mo>+</mo>
-  <mi>b</mi>
-  <mi>X</mi>
-</math>
+$$ y = a + bX $$
 
 dimana:
-
-y adalah variabel kriterium (variabel terikat yang digunakan untuk memprediksi)
-a adalah intersep (variabel konstan yang memiliki arti sebagai titik perpotongan suatu garis dengan sumbu Y),
-b adalah slope (nilai koefisien yang menyatakan ukuran kemiringan suatu garis), dan
-X adalah variabel prediktor (variabel yang digunakan untuk memprediksi atau menjelaskan variabel lain dalam suatu model)
+- y adalah variabel kriterium (variabel terikat yang digunakan untuk memprediksi)
+- a adalah intersep (variabel konstan yang memiliki arti sebagai titik perpotongan suatu garis dengan sumbu Y),
+- b adalah slope (nilai koefisien yang menyatakan ukuran kemiringan suatu garis), dan
+- X adalah variabel prediktor (variabel yang digunakan untuk memprediksi atau menjelaskan variabel lain dalam suatu model)
+  
 Secara umum, regresi ini itu sendiri digunakan untuk meramalkan pengaruh variabel prediktor terhadap variabel kriterium atau membuktikan ada atau tidaknya hubungan fungsional antara variabel bebas (X) dengan variabel terikat (y).
 
 Namun begitu terdapat kelebihan dan kekurangan dari model regresi, yaitu:
 
 Kelebihan regresi:
-
-Kemudahan untuk digunakan
-Kekuatan Prediktor dalam mengidentifikasi sekuat apa pengaruh yang diberikan oleh variabel prediktor (variabel independen) terhadap variabel lainnya (variabel dependen).
-Dapat memprediksi nilai/tren di masa yang mendatang
+- Kemudahan untuk digunakan
+- Kekuatan Prediktor dalam mengidentifikasi sekuat apa pengaruh yang diberikan oleh variabel prediktor (variabel independen) terhadap variabel lainnya (variabel dependen).
+- Dapat memprediksi nilai/tren di masa yang mendatang
+  
 Kelemahan dari model regresi adalah karena hasil ramalan dari analisis regresi merupakan nilai estimasi sehingga kemungkinan untuk tidak sesuai dengan data aktual tetaplah ada.
 
 Pada proyek yang dikerjakan, algoritma regresi yang coba dibandingkan adalah regresi linear, regresi ridge, random forest regressor, dan random forest regressor dengan hyperparamter tuning. Regresi linear adalah teknik analisis data yang memprediksi nilai data yang tidak diketahui dengan menggunakan nilai data lain yang terkait dan diketahui dimana secara matematis dimodelkan sebagai persamaan linier, regresi ridge merupakan metode estimasi koefisien regresi yang diperoleh melalui penambahan konstanta bias c, dan random forest adalah suatu algoritma yang digunakan pada klasifikasi data dalam jumlah yang besar dimana teknik klasifikasi random forest dilakukan melalui penggabungan pohon dengan melakukan training pada sampel data yang dimiliki.
 
 Untuk meningkatkan model, dilakukan hyperparamter tuning. Adapun paramater yang di-tuning antara lain n_estimators', 'max_depth', 'min_samples_split', dan 'min_samples_leaf. Untuk memudahkan proses tuning digunakan GridSearchCV. GridSearchCV itu sendiri merupakan bagian dari modul scikit-learn yang dapat digunakan untuk mendapatkan nilai hyperparameter secara otomatis. Grid Search adalah metode yang digunakan untuk mencari parameter yang paling tepat untuk meningkatkan performa model dengan mencoba seluruh kombinasi hyperparameter yang diberikan.
 
-Berikut adalah nilai parameter tuning
+Berikut adalah nilai parameter *tuning*
+```
 params = {'n_estimators' : [50,80,100],
           'max_depth' : [3,5,10],
            'min_samples_split':[2,3,4],
             'min_samples_leaf': [2,3,4]}
-
+```
 Berdasarkan hasil pengujian, terpilih grid.best_params_ yaitu
+```
 {'max_depth': 10,
  'min_samples_leaf': 4,
  'min_samples_split': 2,
  'n_estimators': 100}
+```
 Parameter dengan nilai inilah yang kemudian dibuat sebagai model.
 
 ## Evaluation
-Adapun metrik yang sebagai alat ukur perfoma model yang dibuat antara lain MSE · MAE · R2.
+Adapun metrik yang sebagai alat ukur perfoma model yang dibuat antara lain:
+**MSE · MAE · R<sup>2</sup>**. 
 
 Berikut merupakan rumus dari masing-masing metrik yang digunakan:
 
-MAE = (1/n) Σ |yi - ŷi|
-MSE = (1/n) Σ (yi - ŷi)2
-R2 = 1 - (MSE / Var(y))
+$$ MAE = (1/n) Σ |y<sub>i</sub> - ŷ<sub>i</sub>| $$
 
-yi mewakili nilai yang diamati, ŷi mewakili nilai prediksi, n adalah jumlah titik data, Var(y) mewakili varians dari nilai yang diamati.
+$$ MSE = (1/n) Σ (y<sub>i</sub> - ŷ<sub>i</sub>)<sup>2</sup> $$
+
+$$ R<sup>2</sup> = 1 - (MSE / Var(y)) $$
+
+y<sub>i</sub> mewakili nilai yang diamati,
+ŷ<sub>i</sub> mewakili nilai prediksi,
+n adalah jumlah titik data,
+Var(y) mewakili varians dari nilai yang diamati.
 
 Berikut merupakan penjelasan kegunaan dari masing-masing metrik yang digunakan:
-
-MAE menghitung rata-rata dari selisih absolut antara nilai prediksi dan nilai aktual. Semakin kecil nilai MAE, semakin baik kualitas model tersebut.
-MSE menghitung rata-rata dari selisih kuadrat antara nilai prediksi dan nilai aktual. Semakin kecil nilai MSE, semakin baik kualitas model tersebut.
-R2 digunakan untuk menilai seberapa besar pengaruh variabel independen tertentu terhadap variabel dependen
+- MAE menghitung rata-rata dari selisih absolut antara nilai prediksi dan nilai aktual. Semakin kecil nilai MAE, semakin baik kualitas model tersebut.
+- MSE menghitung rata-rata dari selisih kuadrat antara nilai prediksi dan nilai aktual. Semakin kecil nilai MSE, semakin baik kualitas model tersebut.
+- R2 digunakan untuk menilai seberapa besar pengaruh variabel independen tertentu terhadap variabel dependen.
 
 Tabel 1 berikut merupakan perbandingan 4 buah model yang coba dibandingkan
-y_LR = LR.predict(X_test)
-y_RR = RR.predict(X_test)
-y_RF1 = RF1.predict(X_test)
-y_RF2 = RF2.predict(X_test)
-
-metrics('Performa Model 1', y_test, y_LR)
-metrics('Performa Model 2', y_test, y_RR)
-metrics('Performa Model 3', y_test, y_RF1)
-metrics('Performa Model 4', y_test, y_RF2)
+|     |Model 1|Model 2|Model 3|Model 4|
+|---|---|---|---|---|
+|R<sup>2</sup>|-15822.820235231844|-15817.222070472248|-0.39805276219466124|-0.36461941323745206|
+|MSE|2228.819631272838|2228.425339531574|20.949855654993556|20.697840062675287|
+|MAE|2227.9828068264883|2227.5886009970973|15.656659388646288|15.21291054892845|
 
 Tabel 1. Perbandingan Performa MAE, MSE, dan R2 Model
 
@@ -211,7 +211,12 @@ Berdasarkan Gambar 4 dapat terlihat bahwa nilai error train dan test dari Model 
 
 Selain itu dilakukan perbandingan nilai y_true terhadap nilai prediksi energi yang digunakan pada sebuah rumah atau bangunan, dari 4 buah model yang dibuat. Tabel 2 berikut merupakan hasil dari evaluasi model yang telah dibuat.
 
+Tabel 2. Perbandingan Model
+|     |y_true|prediksi_LR|prediksi_RR|prediksi_RF1|prediksi_RF2|
+|---|---|---|---|---|---|
+|6291|80|49.2 49.2|56.9|54.0|
 
+Terlihat bahwa prediksi dengan Random Forest (RF), baik RF1 ataupun RF2 memberikan hasil yang paling mendekati y_true. dimana nilai y_true yaitu 80 dan nilai RF1 dan RF2 masing-masing yaitu 56.9 dan 54.0. Dengan demikian bisa disimpulkan bahwa model yang telah dikembangkan dapat memprediksi harga rumah dengan baik dengan menggunakan *Random Forest Regressor*.
 
  
 

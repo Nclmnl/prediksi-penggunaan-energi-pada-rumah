@@ -1,5 +1,5 @@
 ## prediksi-penggunaan-energi-pada-rumah
-tugas mata kuliah sains data rekayasa oleh Nawi rastoko dan elisabeth manalu
+Tugas mata kuliah sains data rekayasa oleh Nawi rastoko dan elisabeth manalu
 
 ## Domain Projek
 Projek prediksi penggunaan energi pada rumah adalah upaya untuk mengembangkan model atau sistem yang dapat memprediksi seberapa banyak energi yang akan digunakan oleh sebuah rumah dalam periode waktu tertentu.

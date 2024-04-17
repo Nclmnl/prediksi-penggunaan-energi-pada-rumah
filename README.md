@@ -60,19 +60,26 @@ Analisis Univariat merupakan bentuk analisis data yang hanya merepresentasikan i
 
 Selain melalui analisis, dilakukan juga Visualisasi Data. Memvisualisasikan data memberikan wawasan mendalam tentang perilaku berbagai fitur-fitur yang tersedia dalam dataset. Teknik visualisasi yang digunakan pada pembuatan model proyek ini adalah dengan menggunakan catplot yang digunakan untuk memplot distribusi data pada data kategori, pairplot yang digunakan untuk melakukan hubungan antar fitur dalam dataset, dan heatmap yang menampilkan korelasi antar fitur yang ada dalam dataset dalam bentuk matriks.
 
-Berikut adalah hasil Exploratory Data Analysis (EDA)
+# Hasil Exploratory Data Analysis (EDA)
+
+Untuk hasil EDA atau Exploratory Data Analysis, hanya dilakukan analisis terhadap data numerik, dikarenakan pada keseluruhan data, tidak ditemukan data yang bersifat kategorik. Sehingga, analisis Univariat dan Analisis Multivariat hanya dilakukan Analisis terhadap Data Numerik.
+Berikut adalah hasil Exploratory Data Analysis (EDA), dimana Gambar 1 merupakan EDA Analisis Univariat dan Gambar 2 merupakan EDA Analisis Multivariat.
 
 Gambar 1 EDA Univariat Numerik
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/afdeb649-55fe-41f0-922c-4810a0a9e82b)
+Berdasarkan grafik analisis univariate diatas, dapat dilihat dari grafik tiap variabel, bahwa terdapat data yang terdistribusi normal, dan ada juga data yang terdistribusi merata, namun dari grafik analisis univariate tersebut, mayoritas data terdistribusi normal.
 
-
-Gambar 2 EDA Multivariat Numerik
+Gambar 2a. EDA Multivariat Numerik
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/8619bd42-dc66-4529-8432-b807bbc6a214)
 
-Gambar 3 Analisis Multivariat (Correlation Matrix)
+Gambar 2b. Analisis Multivariat Numerik (Correlation Matrix)
 ![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/51aa42b7-7299-4a1c-985e-938cc740ba19)
 
+Melalui Grafik Analisis multivariate, kita bisa melihat korelasi dari setiap variabel, dimana variabel x yang tidak berkorelasi dengan y atau variabel target, dapat di hilangkan. 
+
 Jika diamati, fitur 'T2' memiliki skor korelasi yang cukup besar (0.27) dengan fitur target 'Appliances'. Artinya, fitur 'Appliances' berkorelasi cukup tinggi dengan lima belas fitur tersebut. Sementara itu, fitur lainnya memiliki korelasi negatif sehingga, fitur tersebut dapat di-drop.
+
+Dalam hal ini, jika diamati dari Analisis Multivariate tersebut, variabel rv1 dan rv2, yang merupakan random variabel, tidak berkorelasi dengan variabel y,  sehingga variabel rv1 dan rv2 dapat didrop atau dihilangkan.
 
 ##Data Preparation
 Pada proses Data Preparation dilakukan kegiatan seperti Data Gathering, Data Assessing, dan Data Cleaning. Pada proses Data Gathering, data diimpor sedemikian rupa agar bisa dibaca dengan baik menggunakan dataframe Pandas. 
@@ -98,3 +105,136 @@ Dengan menggunakan metode IQR, dapat ditentukan outlier melalui suatu nilai bata
 Semua proses ini diperlukan dalam rangka membuat model yang baik.
 
 Untuk mereduksi jumlah fitur dilakukan proses PCA. Teknik reduksi ini adalah prosedur yang mengurangi jumlah fitur dengan tetap mempertahankan informasi pada data. PCA ini adalah teknik untuk mereduksi dimensi, mengekstraksi fitur, dan mentransformasi data dari “n-dimensional space” ke dalam sistem berkoordinat baru dengan dimensi m, di mana m lebih kecil dari n. Pada proyek ini, fitu 'housing_median_age', 'total_rooms', 'total_bedrooms', 'households' divisualisasikan untuk melihat hubungan di antara fitur-fitur tersebut. sperti yang terlihat pada Gambar 3 berikut.
+
+Gambar 3 Visualisasi Hubungan antar Fitur sebelum Reduksi PCA
+![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/596421ae-9132-4df0-99c6-3e1808cc537e)
+
+Berdasarkan hasil visualisasi dapat diketahui yang memiliki hubungan antar fitur ada 11 yaitu 'T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out'.
+Selanjutnya, 11 fitur ini dapat direduksi dengan PCA. Sebelum itu, cek proporsi informasi dari 11 komponen PCs tadi.
+
+pca.explained_variance_ratio_.round(3)
+
+Potongan kode tersebut memberikan keluaran berupa array([0.572, 0.279, 0.069, 0.037, 0.017, 0.008, 0.008, 0.004, 0.003, 0.002, 0.001]). Dari output di atas 55.5% informasi pada ketiga fitur 'T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out' terdapat pada PC pertama.
+Berdasarkan hasil ini, reduksi fitur (dimensi) dan hanya mempertahankan PC (komponen) pertama saja. PC pertama ini akan menjadi fitur 'energy' menggantikan fitur lainnya ('T1', 'T2', 'T3', 'T4', 'T5', 'RH_1', 'RH_2', 'RH_3', 'RH_4', 'Tdewpoint', 'T_out'). Beri nama fitur ini 'energy'.
+
+Setelah data dibersihkan, dataset dibagi menjadi data train dan data test untuk proses Modeling, dimana rasio pembagian data yang dipilih adalah 90:10 mengingat data test untuk rasio tersebut sudah terbilang cukup. 
+Train-Test-Split Membagi dataset menjadi data latih (train) dan data uji (test) merupakan hal yang harus diakukan sebelum membuat model. Hal ini diperlukan untuk menguji seberapa baik generalisasi model terhadap data baru. Adapun detail dari dataset tersebut adalah:
+* Total # of sample in whole dataset: 10525
+* Total # of sample in train dataset: 9472
+* Total # of sample in test dataset: 1053
+
+## Modeling
+
+Seperti yang dijelaskan di awal, model yang dipilih adalah model regresi karena merupakan salah satu algoritma yang paling umum digunakan dalam pembuatan model prediksi. Dalam bentuk yang sederhana, regresi terdiri dari intersep dan slope yang dituliskan dalam rumusan berikut:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>y</mi>
+  <mo>=</mo>
+  <mi>a</mi>
+  <mo>+</mo>
+  <mi>b</mi>
+  <mi>X</mi>
+</math>
+
+dimana:
+
+y adalah variabel kriterium (variabel terikat yang digunakan untuk memprediksi)
+a adalah intersep (variabel konstan yang memiliki arti sebagai titik perpotongan suatu garis dengan sumbu Y),
+b adalah slope (nilai koefisien yang menyatakan ukuran kemiringan suatu garis), dan
+X adalah variabel prediktor (variabel yang digunakan untuk memprediksi atau menjelaskan variabel lain dalam suatu model)
+Secara umum, regresi ini itu sendiri digunakan untuk meramalkan pengaruh variabel prediktor terhadap variabel kriterium atau membuktikan ada atau tidaknya hubungan fungsional antara variabel bebas (X) dengan variabel terikat (y).
+
+Namun begitu terdapat kelebihan dan kekurangan dari model regresi, yaitu:
+
+Kelebihan regresi:
+
+Kemudahan untuk digunakan
+Kekuatan Prediktor dalam mengidentifikasi sekuat apa pengaruh yang diberikan oleh variabel prediktor (variabel independen) terhadap variabel lainnya (variabel dependen).
+Dapat memprediksi nilai/tren di masa yang mendatang
+Kelemahan dari model regresi adalah karena hasil ramalan dari analisis regresi merupakan nilai estimasi sehingga kemungkinan untuk tidak sesuai dengan data aktual tetaplah ada.
+
+Pada proyek yang dikerjakan, algoritma regresi yang coba dibandingkan adalah regresi linear, regresi ridge, random forest regressor, dan random forest regressor dengan hyperparamter tuning. Regresi linear adalah teknik analisis data yang memprediksi nilai data yang tidak diketahui dengan menggunakan nilai data lain yang terkait dan diketahui dimana secara matematis dimodelkan sebagai persamaan linier, regresi ridge merupakan metode estimasi koefisien regresi yang diperoleh melalui penambahan konstanta bias c, dan random forest adalah suatu algoritma yang digunakan pada klasifikasi data dalam jumlah yang besar dimana teknik klasifikasi random forest dilakukan melalui penggabungan pohon dengan melakukan training pada sampel data yang dimiliki.
+
+Untuk meningkatkan model, dilakukan hyperparamter tuning. Adapun paramater yang di-tuning antara lain n_estimators', 'max_depth', 'min_samples_split', dan 'min_samples_leaf. Untuk memudahkan proses tuning digunakan GridSearchCV. GridSearchCV itu sendiri merupakan bagian dari modul scikit-learn yang dapat digunakan untuk mendapatkan nilai hyperparameter secara otomatis. Grid Search adalah metode yang digunakan untuk mencari parameter yang paling tepat untuk meningkatkan performa model dengan mencoba seluruh kombinasi hyperparameter yang diberikan.
+
+Berikut adalah nilai parameter tuning
+params = {'n_estimators' : [50,80,100],
+          'max_depth' : [3,5,10],
+           'min_samples_split':[2,3,4],
+            'min_samples_leaf': [2,3,4]}
+
+Berdasarkan hasil pengujian, terpilih grid.best_params_ yaitu
+{'max_depth': 10,
+ 'min_samples_leaf': 4,
+ 'min_samples_split': 2,
+ 'n_estimators': 100}
+Parameter dengan nilai inilah yang kemudian dibuat sebagai model.
+
+## Evaluation
+Adapun metrik yang sebagai alat ukur perfoma model yang dibuat antara lain MSE · MAE · R2.
+
+Berikut merupakan rumus dari masing-masing metrik yang digunakan:
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>M</mi>
+  <mi>S</mi>
+  <mi>E</mi>
+  <mo>=</mo>
+  <mo stretchy="false">(</mo>
+  <mn>1</mn>
+  <mrow data-mjx-texclass="ORD">
+    <mo>/</mo>
+  </mrow>
+  <mi>n</mi>
+  <mo stretchy="false">)</mo>
+  <mi>&#x3A3;</mi>
+  <mo stretchy="false">(</mo>
+  <mi>y</mi>
+  <mi>i</mi>
+  <mo>&#x2212;</mo>
+  <mi>&#x177;</mi>
+  <mi>i</mi>
+  <mo stretchy="false">)</mo>
+  <mn>2</mn>
+</math>
+
+yi mewakili nilai yang diamati, ŷi mewakili nilai prediksi, n adalah jumlah titik data, Var(y) mewakili varians dari nilai yang diamati.
+
+Berikut merupakan penjelasan kegunaan dari masing-masing metrik yang digunakan:
+
+MAE menghitung rata-rata dari selisih absolut antara nilai prediksi dan nilai aktual. Semakin kecil nilai MAE, semakin baik kualitas model tersebut.
+MSE menghitung rata-rata dari selisih kuadrat antara nilai prediksi dan nilai aktual. Semakin kecil nilai MSE, semakin baik kualitas model tersebut.
+R2 digunakan untuk menilai seberapa besar pengaruh variabel independen tertentu terhadap variabel dependen
+
+Tabel 1 berikut merupakan perbandingan 4 buah model yang coba dibandingkan
+y_LR = LR.predict(X_test)
+y_RR = RR.predict(X_test)
+y_RF1 = RF1.predict(X_test)
+y_RF2 = RF2.predict(X_test)
+
+metrics('Performa Model 1', y_test, y_LR)
+metrics('Performa Model 2', y_test, y_RR)
+metrics('Performa Model 3', y_test, y_RF1)
+metrics('Performa Model 4', y_test, y_RF2)
+Tabel 1. Perbandingan Performa MAE, MSE, dan R2 Model
+
+Berdasarkan Tabel 1, secara umum Model 3 (RF1) dan Model 4 (RF2) menampilkan hasil performa yang lebih baik dimana masing-masing memiliki nilai R^2 yaitu sebesar -0.39805276219466124 dan -0.36461941323745206.
+
+Secara lebih jauh perbandingan Model 1, 2, 3, dan 4 bisa dilihat pada Gambar 4 berikut.
+
+Gambar 4. Perbandingan Model berdasarkan Nilai Error (dalam 1e6)
+![image](https://github.com/Nclmnl/prediksi-penggunaan-energi-pada-rumah/assets/165830533/b969279b-4212-421f-a20a-bb9770a881e7)
+
+Berdasarkan Gambar 4 dapat terlihat bahwa nilai error train dan test dari Model 3 (RF1) dan Model 4 (RF2) jauh lebih baik dibandingkan model lainnya.
+
+Selain itu dilakukan perbandingan nilai y_true terhadap nilai prediksi energi yang digunakan pada sebuah rumah atau bangunan, dari 4 buah model yang dibuat. Tabel 2 berikut merupakan hasil dari evaluasi model yang telah dibuat.
+
+
+
+ 
+
+
+
+
+
+
+
+

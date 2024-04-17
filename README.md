@@ -126,6 +126,7 @@ Train-Test-Split Membagi dataset menjadi data latih (train) dan data uji (test) 
 ## Modeling
 
 Seperti yang dijelaskan di awal, model yang dipilih adalah model regresi karena merupakan salah satu algoritma yang paling umum digunakan dalam pembuatan model prediksi. Dalam bentuk yang sederhana, regresi terdiri dari intersep dan slope yang dituliskan dalam rumusan berikut:
+
 <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
   <mi>y</mi>
   <mo>=</mo>
@@ -173,28 +174,10 @@ Parameter dengan nilai inilah yang kemudian dibuat sebagai model.
 Adapun metrik yang sebagai alat ukur perfoma model yang dibuat antara lain MSE · MAE · R2.
 
 Berikut merupakan rumus dari masing-masing metrik yang digunakan:
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-  <mi>M</mi>
-  <mi>S</mi>
-  <mi>E</mi>
-  <mo>=</mo>
-  <mo stretchy="false">(</mo>
-  <mn>1</mn>
-  <mrow data-mjx-texclass="ORD">
-    <mo>/</mo>
-  </mrow>
-  <mi>n</mi>
-  <mo stretchy="false">)</mo>
-  <mi>&#x3A3;</mi>
-  <mo stretchy="false">(</mo>
-  <mi>y</mi>
-  <mi>i</mi>
-  <mo>&#x2212;</mo>
-  <mi>&#x177;</mi>
-  <mi>i</mi>
-  <mo stretchy="false">)</mo>
-  <mn>2</mn>
-</math>
+
+MAE = (1/n) Σ |yi - ŷi|
+MSE = (1/n) Σ (yi - ŷi)2
+R2 = 1 - (MSE / Var(y))
 
 yi mewakili nilai yang diamati, ŷi mewakili nilai prediksi, n adalah jumlah titik data, Var(y) mewakili varians dari nilai yang diamati.
 
@@ -214,6 +197,7 @@ metrics('Performa Model 1', y_test, y_LR)
 metrics('Performa Model 2', y_test, y_RR)
 metrics('Performa Model 3', y_test, y_RF1)
 metrics('Performa Model 4', y_test, y_RF2)
+
 Tabel 1. Perbandingan Performa MAE, MSE, dan R2 Model
 
 Berdasarkan Tabel 1, secara umum Model 3 (RF1) dan Model 4 (RF2) menampilkan hasil performa yang lebih baik dimana masing-masing memiliki nilai R^2 yaitu sebesar -0.39805276219466124 dan -0.36461941323745206.
